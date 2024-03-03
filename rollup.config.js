@@ -27,7 +27,7 @@ export default [
 		],
 		output: {
 			file: 'dist/main.js',
-			format: 'cjs',
+			format: 'es',
 			sourcemap: true
 		}
 	},

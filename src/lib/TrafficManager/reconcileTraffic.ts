@@ -1,9 +1,8 @@
+// import { logCpu, logCpuStart } from '../../utils/logCpu';
+import { packPos } from '../../utils/packPositions';
 import { MemoryCache } from '../CachingStrategies/Memory';
 import { NumberSerializer } from '../CachingStrategies/Serializers/Number';
 import { adjacentWalkablePositions } from '../Movement/selectors';
-// import { logCpu, logCpuStart } from '../../utils/logCpu';
-import { packPos } from '../../utils/packPositions';
-import { measure } from '../../utils/profiler';
 import { getMoveIntentRooms, getMoveIntents, registerMove, updateIntentTargetCount } from './moveLedger';
 
 const keys = {
@@ -46,8 +45,6 @@ export function reconcileTraffic(opts?: ReconcileTrafficOpts) {
 }
 
 function reconcileTrafficByRoom(room: string, opts?: ReconcileTrafficOpts) {
-  const start = Game.cpu.getUsed();
-  let moveTime = 0;
   const moveIntents = getMoveIntents(room);
   const used = moveIntents.blockedSquares;
 
@@ -180,7 +177,7 @@ function reconcileTrafficByRoom(room: string, opts?: ReconcileTrafficOpts) {
         }
 
         // resolve intent
-        moveTime += measure(() => intent.creep.move(intent.creep.pos.getDirectionTo(targetPos!)));
+        intent.creep.move(intent.creep.pos.getDirectionTo(targetPos!));
         intent.resolved = true;
         // logCpu('resolving intent');
 
@@ -237,14 +234,4 @@ function reconcileTrafficByRoom(room: string, opts?: ReconcileTrafficOpts) {
       }
     }
   }
-
-  const totalTime = Math.max(0, Game.cpu.getUsed() - start);
-  efficiency.push(moveTime / totalTime);
-  if (efficiency.length > 1500) efficiency = efficiency.slice(-1500);
-  // console.log(
-  //   `reconcileTraffic: total(${totalTime.toFixed(3)} cpu), efficiency(${(
-  //     (100 * efficiency.reduce((a, b) => a + b)) /
-  //     efficiency.length
-  //   ).toFixed(2)}%)`
-  // );
 }

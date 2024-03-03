@@ -1,11 +1,15 @@
 {
-  "name": "screeps-cartographer",
+  "name": "@alorel/screeps-cartographer",
   "version": "1.8.9",
   "description": "An advanced (and open source) movement library for Screeps",
   "homepage": "https://glitchassassin.github.io/screeps-cartographer/",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/glitchassassin/screeps-cartographer/"
+    "url": "https://github.com/Alorel/screeps-cartographer.git"
   },
   "bugs": {
     "url": "https://github.com/glitchassassin/screeps-cartographer/issues"
@@ -18,6 +22,7 @@
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
+    "postbuild": "cp .npmrc dist/.npmrc && cp package.json dist/package.json",
     "build:docs": "typedoc src/main.ts",
     "watch": "rollup -cw",
     "watch-pserver": "rollup -cw --environment DEST:pserver"

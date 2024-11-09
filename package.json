@@ -1,6 +1,6 @@
 {
   "name": "@alorel/screeps-cartographer",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "An advanced (and open source) movement library for Screeps",
   "homepage": "https://glitchassassin.github.io/screeps-cartographer/",
   "publishConfig": {
@@ -19,6 +19,7 @@
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
+    "publish-dist": "cd dist && npm publish",
     "postbuild": "cp .npmrc dist/.npmrc && cp package.json dist/package.json",
     "build:docs": "typedoc src/main.ts",
     "watch": "rollup -cw",

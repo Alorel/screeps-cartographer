@@ -1,6 +1,6 @@
 {
   "name": "@alorel/screeps-cartographer",
-  "version": "1.8.10",
+  "version": "2.0.0",
   "description": "An advanced (and open source) movement library for Screeps",
   "homepage": "https://glitchassassin.github.io/screeps-cartographer/",
   "publishConfig": {
@@ -14,11 +14,8 @@
   "bugs": {
     "url": "https://github.com/glitchassassin/screeps-cartographer/issues"
   },
-  "main": "dist/main.js",
-  "types": "dist/main.d.ts",
-  "files": [
-    "dist/**/*"
-  ],
+  "main": "main.js",
+  "types": "main.d.ts",
   "scripts": {
     "test": "jest",
     "build": "rollup -c",
@@ -54,7 +51,6 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "screeps-utf15": "^1.0.1",
-    "ts-polyfill": "^3.8.2"
+    "screeps-utf15": "^1.0.1"
   }
 }

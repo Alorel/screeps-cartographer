@@ -23,7 +23,7 @@ const keys = {
 export function cachePath(
   key: string,
   origin: RoomPosition,
-  targets: _HasRoomPosition | RoomPosition | MoveTarget | RoomPosition[] | MoveTarget[],
+  targets: _HasRoomPosition | RoomPosition | MoveTarget | readonly RoomPosition[] | readonly MoveTarget[],
   opts?: MoveOpts
 ) {
   const actualOpts = {

@@ -1,5 +1,5 @@
-import { RoomPositionSet } from 'lib/Utils/RoomPositionSet';
 import { memoize } from 'lib/Utils/memoize';
+import { RoomPositionSet } from 'lib/Utils/RoomPositionSet';
 import { Coord, fromGlobalPosition, globalPosition } from 'utils/packPositions';
 import { MoveTarget } from '..';
 import { offsetRoomPosition, sameRoomPosition } from './roomPositions';
@@ -15,7 +15,7 @@ export const isExit = (pos: RoomPosition) => pos.x === 0 || pos.y === 0 || pos.x
  */
 export const normalizeTargets = memoize(
   (
-    targets: _HasRoomPosition | RoomPosition | MoveTarget | RoomPosition[] | MoveTarget[],
+    targets: _HasRoomPosition | RoomPosition | MoveTarget | readonly RoomPosition[] | readonly MoveTarget[],
     keepTargetInRoom = true,
     flee = false
   ) => {
@@ -33,12 +33,12 @@ export const normalizeTargets = memoize(
         key += `${targets.pos.__packedPos}_1`;
       }
     } else {
-      key += `${targets.__packedPos}_1`;
+      key += `${(targets as RoomPosition).__packedPos}_1`;
     }
     return key;
   },
   (
-    targets: _HasRoomPosition | RoomPosition | MoveTarget | RoomPosition[] | MoveTarget[],
+    targets: _HasRoomPosition | RoomPosition | MoveTarget | readonly RoomPosition[] | readonly MoveTarget[],
     keepTargetInRoom = true,
     flee = false
   ) => {
@@ -56,7 +56,7 @@ export const normalizeTargets = memoize(
         normalizedTargets.push({ pos: targets.pos, range: 1 });
       }
     } else {
-      normalizedTargets.push({ pos: targets, range: 1 });
+      normalizedTargets.push({ pos: targets as RoomPosition, range: 1 });
     }
 
     if (keepTargetInRoom) normalizedTargets = normalizedTargets.flatMap(fixEdgePosition);

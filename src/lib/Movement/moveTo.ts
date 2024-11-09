@@ -72,7 +72,7 @@ export function clearCachedPath(
  */
 export const moveTo = (
   creep: Creep | PowerCreep,
-  targets: _HasRoomPosition | RoomPosition | MoveTarget | RoomPosition[] | MoveTarget[],
+  targets: _HasRoomPosition | RoomPosition | MoveTarget | readonly RoomPosition[] | readonly MoveTarget[],
   opts?: MoveOpts,
   fallbackOpts: MoveOpts = { avoidCreeps: true }
 ) => {

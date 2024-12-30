@@ -1,21 +1,35 @@
-export const isHighway = (roomName: string) => {
-  let parsed = roomName.match(/^[WE]([0-9]+)[NS]([0-9]+)$/);
-  if (!parsed) throw new Error('Invalid room name');
-  return Number(parsed[1]) % 10 === 0 || Number(parsed[2]) % 10 === 0;
-};
-export const isCenterRoom = (roomName: string) => {
-  let parsed = roomName.match(/^[WE]([0-9]+)[NS]([0-9]+)$/);
-  if (!parsed) throw new Error('Invalid room name');
-  return Number(parsed[1]) % 10 === 5 && Number(parsed[2]) % 10 === 5;
-};
-export const isSourceKeeperRoom = (roomName: string) => {
-  let parsed = roomName.match(/^[WE]([0-9]+)[NS]([0-9]+)$/);
-  if (!parsed) throw new Error('Invalid room name');
-  let fmod = Number(parsed[1]) % 10;
-  let smod = Number(parsed[2]) % 10;
-  // return !(fmod === 5 && smod === 5) && (fmod >= 4 && fmod <= 6) && (smod >= 4 && smod <= 6);
-  return fmod >= 4 && fmod <= 6 && smod >= 4 && smod <= 6;
-};
+const ROOM_REG = /^[WE]([0-9]+)[NS]([0-9]+)$/;
+
+let isHighway: (roomName: string) => boolean;
+let isCenterRoom: typeof isHighway;
+let isSourceKeeperRoom: typeof isHighway;
+
+if ('sim' in Game.rooms) {
+  isHighway = isCenterRoom = isSourceKeeperRoom = () => false;
+} else {
+  isHighway = (roomName: string) => {
+    let parsed = roomName.match(ROOM_REG);
+    if (!parsed) throw new Error('Invalid room name');
+    return Number(parsed[1]) % 10 === 0 || Number(parsed[2]) % 10 === 0;
+  };
+
+  isCenterRoom = (roomName: string) => {
+    let parsed = roomName.match(ROOM_REG);
+    if (!parsed) throw new Error('Invalid room name');
+    return Number(parsed[1]) % 10 === 5 && Number(parsed[2]) % 10 === 5;
+  };
+
+  isSourceKeeperRoom = (roomName: string) => {
+    let parsed = roomName.match(ROOM_REG);
+    if (!parsed) throw new Error('Invalid room name');
+    let fmod = Number(parsed[1]) % 10;
+    let smod = Number(parsed[2]) % 10;
+    // return !(fmod === 5 && smod === 5) && (fmod >= 4 && fmod <= 6) && (smod >= 4 && smod <= 6);
+    return fmod >= 4 && fmod <= 6 && smod >= 4 && smod <= 6;
+  };
+}
+
+export { isHighway, isCenterRoom, isSourceKeeperRoom };
 
 /**
  * Returns the remaining slice of the path (not including start)

@@ -7,6 +7,10 @@ export interface MoveOpts extends PathFinderOpts {
    * Caching strategy to use to save paths. Defaults to HeapCache.
    */
   cache?: CachingStrategy;
+
+  /** false (default) will move to adjacent positions at the en dof the path, true will move to the path exactly */
+  exact?: boolean;
+
   /**
    * Number of ticks to save a cached path before repathing. If undefined,
    * cached path will be reused indefinitely. Default is undefined.

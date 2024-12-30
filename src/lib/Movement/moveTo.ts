@@ -230,7 +230,7 @@ export const moveTo = (
   if (DEBUG) logCpu('generating cached path');
 
   // move to any viable target square, if path is nearly done
-  if (path && path[path.length - 2]?.isEqualTo(creep.pos)) {
+  if (!actualOpts.exact && path && path[path.length - 2]?.isEqualTo(creep.pos)) {
     // Nearly at end of path
     let cm = configureRoomCallback(actualOpts)(creep.pos.roomName);
 

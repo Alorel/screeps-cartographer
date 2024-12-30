@@ -1,6 +1,6 @@
 {
   "name": "@alorel/screeps-cartographer",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "An advanced (and open source) movement library for Screeps",
   "homepage": "https://glitchassassin.github.io/screeps-cartographer/",
   "publishConfig": {

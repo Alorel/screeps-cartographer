@@ -17,11 +17,19 @@ export interface CostMatrixOptions {
 /**
  * Mutates a cost matrix based on a set of options, and returns the mutated cost matrix.
  */
-export const mutateCostMatrix = (cm: CostMatrix, room: string, opts: CostMatrixOptions) => {
-  if (opts.avoidCreeps) {
-    Game.rooms[room]?.find(FIND_CREEPS).forEach(c => cm.set(c.pos.x, c.pos.y, 255));
-    Game.rooms[room]?.find(FIND_POWER_CREEPS).forEach(c => cm.set(c.pos.x, c.pos.y, 255));
+export const mutateCostMatrix = (origin: RoomPosition, cm: CostMatrix, room: string, opts: CostMatrixOptions) => {
+  if (opts.avoidCreeps && origin.roomName === room) {
+    const finds = [FIND_CREEPS, FIND_POWER_CREEPS];
+    for (let i = 0 ; i < finds.length; ++i) {
+      const targets = origin.findInRange(finds[i]!, 3);
+
+      for (let j = 0; j < targets.length; ++j) {
+        const {x, y} = targets[j]!.pos;
+        cm.set(x, y, 255);
+      }
+    }
   }
+
   if (opts.avoidSourceKeepers) {
     avoidSourceKeepers(room, cm);
   }
@@ -69,10 +77,10 @@ export const mutateCostMatrix = (cm: CostMatrix, room: string, opts: CostMatrixO
   return cm;
 };
 
-export const configureRoomCallback = (actualOpts: MoveOpts, targetRooms?: string[]) => (room: string) => {
+export const configureRoomCallback = (origin: RoomPosition, actualOpts: MoveOpts, targetRooms?: string[]) => (room: string) => {
   if (targetRooms && !targetRooms.includes(room)) return false; // outside route search space
   let cm = actualOpts.roomCallback?.(room);
   if (cm === false) return cm;
   const cloned = cm instanceof PathFinder.CostMatrix ? cm.clone() : new PathFinder.CostMatrix();
-  return mutateCostMatrix(cloned, room, actualOpts);
+  return mutateCostMatrix(origin, cloned, room, actualOpts);
 };
